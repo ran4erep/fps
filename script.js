@@ -62,7 +62,6 @@ function draw() {
 	
 		//Drawing the rays
 		ctx.fillStyle = "green";
-		console.log((X*blockSize)/blockSize)
 		castRay(X * blockSize, Y * blockSize, 0,0)
 		
 	// Drawing the player
@@ -75,16 +74,16 @@ function draw() {
 
 };
 
+function getDistance(x1,y1, x2,y2) {
+	let a = x1 - x2;
+	let b = y1 - y2;
+	
+	return Math.sqrt(a * a + b * b);
+}
 
 let plot = (x,y) => {
-	for (let i = 0; i < levelHeight; i++) {
-		for (let j = 0; j < levelWidth; j++) {
-			if(map[Math.floor(y/blockSize)][Math.floor(x/blockSize)] !== 1) {
-				ctx.fillRect(x,y,1,1);
-				return true;
-			} 
-		}
-	}
+		ctx.fillRect(x,y,1,1);
+		return true;
 };
 
 let castRay = (x0,y0, x1,y1) => {
@@ -110,7 +109,8 @@ let castRay = (x0,y0, x1,y1) => {
     let s = 1;
     if (x0 > x1) q = -1;
     if (y0 > y1) s = -1;
-    plot(x,y);
+    //plot(x,y);
+    
     for (let k=0; k < -b; k++) {
         if (d > 0) {
             x = x + q; y = y + s;
@@ -121,7 +121,14 @@ let castRay = (x0,y0, x1,y1) => {
             if (swap) { y = y + s; x = x - q; }
             d = d + 2 * a;
         }
-        plot(x,y)
+    	for (let i = 0; i < levelHeight; i++) {
+				for (let j = 0; j < levelWidth; j++) {
+					if(map[Math.floor(y/blockSize)][Math.floor(x/blockSize)] !== 1) {
+						plot(x,y);
+					} else return;
+				}
+			}
+        //plot(x,y);
     }
 };
 
