@@ -62,7 +62,8 @@ function draw() {
 	
 		//Drawing the rays
 		ctx.fillStyle = "green";
-		castRay(X * blockSize, Y * blockSize, (X * blockSize) - 5, (Y * blockSize) - 30)
+		console.log((X*blockSize)/blockSize)
+		castRay(X * blockSize, Y * blockSize, 0,0)
 		
 	// Drawing the player
 	ctx.fillStyle = "blue";
@@ -76,8 +77,14 @@ function draw() {
 
 
 let plot = (x,y) => {
-    ctx.fillRect(x,y,1,1);
-    return true;
+	for (let i = 0; i < levelHeight; i++) {
+		for (let j = 0; j < levelWidth; j++) {
+			if(map[Math.floor(y/blockSize)][Math.floor(x/blockSize)] !== 1) {
+				ctx.fillRect(x,y,1,1);
+				return true;
+			} 
+		}
+	}
 };
 
 let castRay = (x0,y0, x1,y1) => {
